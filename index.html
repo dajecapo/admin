@@ -13,7 +13,7 @@
     }
 
     .login, .panel {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 40px auto;
       background: #fff;
       padding: 30px;
@@ -24,6 +24,7 @@
     h1 {
       text-align: center;
       color: #4a148c;
+      text-transform: capitalize;
     }
 
     input[type="password"], input[type="text"] {
@@ -38,11 +39,17 @@
     button {
       background-color: #6a1b9a;
       color: white;
-      padding: 12px 20px;
+      padding: 10px 16px;
       border: none;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
+    }
+
+    .acciones {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
     }
 
     .error {
@@ -67,6 +74,7 @@
       padding: 10px;
       text-align: left;
       border-bottom: 1px solid #ccc;
+      vertical-align: middle;
     }
 
     th {
@@ -74,8 +82,12 @@
       text-transform: lowercase;
     }
 
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
     .acciones button {
-      margin-right: 5px;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -143,12 +155,22 @@
           const fila = datos[i];
           const tr = document.createElement("tr");
 
-          fila.forEach(valor => {
+          // Mostrar todos los datos menos la columna de acciones (última)
+          for (let j = 0; j < fila.length; j++) {
             const td = document.createElement("td");
-            td.textContent = valor;
-            tr.appendChild(td);
-          });
 
+            // Formatear la fecha
+            if (j === 5 && fila[j]) {
+              const fecha = new Date(fila[j]);
+              td.textContent = fecha.toLocaleDateString("es-MX");
+            } else {
+              td.textContent = fila[j];
+            }
+
+            tr.appendChild(td);
+          }
+
+          // Columna de acciones
           const accionesTd = document.createElement("td");
           accionesTd.className = "acciones";
 
