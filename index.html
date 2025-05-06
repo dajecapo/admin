@@ -26,10 +26,10 @@
       color: #4a148c;
     }
 
-    input[type="password"] {
+    input[type="password"], input[type="text"] {
       width: 100%;
       padding: 12px;
-      margin: 20px 0;
+      margin: 20px 0 10px 0;
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 16px;
@@ -51,6 +51,12 @@
       text-align: center;
       margin-top: 10px;
     }
+
+    .checkbox {
+      font-size: 14px;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
@@ -58,6 +64,9 @@
 <div class="login" id="login">
   <h1>Acceso al Panel</h1>
   <input type="password" id="clave" placeholder="Ingresa la clave de acceso">
+  <div class="checkbox">
+    <input type="checkbox" id="verClave" onclick="toggleClave()"> Ver contraseña
+  </div>
   <button onclick="verificarAcceso()">Entrar</button>
   <div class="error" id="errorClave" style="display:none;">Clave incorrecta</div>
 </div>
@@ -81,6 +90,11 @@
     } else {
       error.style.display = 'block';
     }
+  }
+
+  function toggleClave() {
+    const campo = document.getElementById('clave');
+    campo.type = campo.type === 'password' ? 'text' : 'password';
   }
 </script>
 
