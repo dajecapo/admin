@@ -71,6 +71,7 @@
 
     th {
       background-color: #ede7f6;
+      text-transform: lowercase;
     }
 
     .acciones button {
@@ -91,18 +92,18 @@
 </div>
 
 <div class="panel" id="panel" style="display:none;">
-  <h1>Solicitudes de Sabios (SÚMATE)</h1>
+  <h1>solicitudes de sabios (sumate)</h1>
   <table id="tablaSumate">
     <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Edad</th>
-        <th>Área</th>
-        <th>Email</th>
-        <th>Teléfono</th>
-        <th>Fecha</th>
-        <th>Estatus</th>
-        <th>Acciones</th>
+        <th>nombre</th>
+        <th>edad</th>
+        <th>area_conocimiento</th>
+        <th>email</th>
+        <th>telefono</th>
+        <th>fecha</th>
+        <th>estatus</th>
+        <th>acciones</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -142,11 +143,11 @@
           const fila = datos[i];
           const tr = document.createElement("tr");
 
-          for (let j = 0; j < 7; j++) {
+          fila.forEach(valor => {
             const td = document.createElement("td");
-            td.textContent = fila[j];
+            td.textContent = valor;
             tr.appendChild(td);
-          }
+          });
 
           const accionesTd = document.createElement("td");
           accionesTd.className = "acciones";
