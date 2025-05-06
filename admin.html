@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      color: #333;
+    }
+
+    .login, .panel {
+      max-width: 600px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #4a148c;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #6a1b9a;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login" id="login">
+  <h1>Acceso al Panel</h1>
+  <input type="password" id="clave" placeholder="Ingresa la clave de acceso">
+  <button onclick="verificarAcceso()">Entrar</button>
+  <div class="error" id="errorClave" style="display:none;">Clave incorrecta</div>
+</div>
+
+<div class="panel" id="panel" style="display:none;">
+  <h1>Panel de Administración</h1>
+  <!-- Aquí se cargará la interfaz del panel: consultas, testimonios y súmate -->
+  <p>Acceso concedido. Aquí irá la interfaz de control.</p>
+</div>
+
+<script>
+  const claveCorrecta = "sabios2025"; // puedes cambiar esta clave
+
+  function verificarAcceso() {
+    const clave = document.getElementById('clave').value.trim();
+    const error = document.getElementById('errorClave');
+
+    if (clave === claveCorrecta) {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('panel').style.display = 'block';
+    } else {
+      error.style.display = 'block';
+    }
+  }
+</script>
+
+</body>
+</html>
