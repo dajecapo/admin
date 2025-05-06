@@ -13,8 +13,8 @@
     }
 
     .login, .panel {
-      max-width: 600px;
-      margin: 60px auto;
+      max-width: 900px;
+      margin: 40px auto;
       background: #fff;
       padding: 30px;
       border-radius: 12px;
@@ -43,7 +43,6 @@
       border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
-      width: 100%;
     }
 
     .error {
@@ -56,6 +55,26 @@
       font-size: 14px;
       margin-top: -10px;
       margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #ede7f6;
+    }
+
+    .acciones button {
+      margin-right: 5px;
     }
   </style>
 </head>
@@ -72,13 +91,27 @@
 </div>
 
 <div class="panel" id="panel" style="display:none;">
-  <h1>Panel de Administración</h1>
-  <!-- Aquí se cargará la interfaz del panel: consultas, testimonios y súmate -->
-  <p>Acceso concedido. Aquí irá la interfaz de control.</p>
+  <h1>Solicitudes de Sabios (SÚMATE)</h1>
+  <table id="tablaSumate">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>Área</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Fecha</th>
+        <th>Estatus</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 </div>
 
 <script>
-  const claveCorrecta = "sabios2025"; // puedes cambiar esta clave
+  const claveCorrecta = "sabios2025";
+  const url = "https://script.google.com/macros/s/AKfycbyF5VmLGYYk0gajYezoXuMxmNDkMUSIsMtrlLRXLSPElZyBohqZNZa99t2omUvFByY6/exec";
 
   function verificarAcceso() {
     const clave = document.getElementById('clave').value.trim();
@@ -87,6 +120,7 @@
     if (clave === claveCorrecta) {
       document.getElementById('login').style.display = 'none';
       document.getElementById('panel').style.display = 'block';
+      cargarDatosSumate();
     } else {
       error.style.display = 'block';
     }
@@ -95,6 +129,54 @@
   function toggleClave() {
     const campo = document.getElementById('clave');
     campo.type = campo.type === 'password' ? 'text' : 'password';
+  }
+
+  function cargarDatosSumate() {
+    fetch(url)
+      .then(res => res.json())
+      .then(datos => {
+        const tbody = document.querySelector("#tablaSumate tbody");
+        tbody.innerHTML = "";
+
+        for (let i = 1; i < datos.length; i++) {
+          const fila = datos[i];
+          const tr = document.createElement("tr");
+
+          for (let j = 0; j < 7; j++) {
+            const td = document.createElement("td");
+            td.textContent = fila[j];
+            tr.appendChild(td);
+          }
+
+          const accionesTd = document.createElement("td");
+          accionesTd.className = "acciones";
+
+          const aprobarBtn = document.createElement("button");
+          aprobarBtn.textContent = "Aprobar";
+          aprobarBtn.onclick = () => actualizarEstatus(i, "aprobar");
+
+          const eliminarBtn = document.createElement("button");
+          eliminarBtn.textContent = "Eliminar";
+          eliminarBtn.onclick = () => actualizarEstatus(i, "eliminar");
+
+          accionesTd.appendChild(aprobarBtn);
+          accionesTd.appendChild(eliminarBtn);
+          tr.appendChild(accionesTd);
+
+          tbody.appendChild(tr);
+        }
+      });
+  }
+
+  function actualizarEstatus(fila, accion) {
+    fetch(url, {
+      method: 'POST',
+      body: new URLSearchParams({ fila, accion })
+    })
+    .then(res => res.text())
+    .then(res => {
+      if (res === "OK") cargarDatosSumate();
+    });
   }
 </script>
 
